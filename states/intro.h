@@ -8,6 +8,7 @@
 
 #include "states.h"
 #include "../myLib.h"
+#include "../assets/intro_movie.h"
 
 enum GameState run_intro(u32 frame_no);
 

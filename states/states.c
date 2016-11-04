@@ -3,6 +3,7 @@
 /* states */
 #include "menu.h"
 #include "intro.h"
+#include "play.h"
 
 enum GameState eval_state(enum GameState current, u32 frame_no) {
 	switch (current) {
@@ -10,6 +11,8 @@ enum GameState eval_state(enum GameState current, u32 frame_no) {
 			return run_menu(frame_no);
 		case GAME_STATE_INTRO:
 			return run_intro(frame_no);
+		case GAME_STATE_PLAY:
+			return run_play(frame_no);
 		default:
 			return current;
 	}
