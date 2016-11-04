@@ -322,7 +322,9 @@ const unsigned short* intro_frames[] = {
 
 enum GameState run_intro(u32 frame_no) {
 	u16 intro_frame = frame_no / 3;
-	if (intro_frame == n_frames) {
+	struct Buttons events = button_events();
+
+	if (intro_frame == n_frames || events.pressed & BUTTON_START) {
 		return GAME_STATE_PLAY;
 	}
 	else {
