@@ -12,6 +12,7 @@
 
 enum GameState {
     GAME_STATE_MENU,
+    GAME_STATE_INTRO,
 };
 
 enum GameState eval_state(enum GameState current, u32 frame_no);

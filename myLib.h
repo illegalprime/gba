@@ -48,16 +48,16 @@ typedef int s32;
 #define SCREEN_SIZE (240 * 160)
 
 #define BUTTONS       *(volatile unsigned short*) 0x4000130
-#define BUTTON_A      (1 << 0)
-#define BUTTON_B      (1 << 1)
-#define BUTTON_START  (1 << 2)
-#define BUTTON_SELECT (1 << 3)
-#define BUTTON_RIGHT  (1 << 4)
-#define BUTTON_LEFT   (1 << 5)
-#define BUTTON_UP     (1 << 6)
-#define BUTTON_DOWN   (1 << 7)
-#define BUTTON_R      (1 << 8)
-#define BUTTON_L      (1 << 9)
+#define BUTTON_A        0x0001
+#define BUTTON_B        0x0002
+#define BUTTON_SELECT   0x0004
+#define BUTTON_START    0x0008
+#define BUTTON_RIGHT    0x0010
+#define BUTTON_LEFT     0x0020
+#define BUTTON_UP       0x0040
+#define BUTTON_DOWN     0x0080
+#define BUTTON_R        0x0100
+#define BUTTON_L        0x0200
 #define KEY_DOWN_NOW(key) (~(BUTTONS) & key)
 
 #define OFFSET(r,c) ((r)*240+(c))
@@ -118,5 +118,37 @@ void fill(u32 color);
 void fill_image(const unsigned short* image);
 
 struct Buttons button_events();
+
+// debug buttons
+// if (KEY_DOWN_NOW(BUTTON_A)) {
+// 	fill(WHITE);
+// }
+// if (KEY_DOWN_NOW(BUTTON_B)) {
+// 	fill(BLACK);
+// }
+// if (KEY_DOWN_NOW(BUTTON_SELECT)) {
+// 	fill(GREEN);
+// }
+// if (KEY_DOWN_NOW(BUTTON_START)) {
+// 	fill(RED);
+// }
+// if (KEY_DOWN_NOW(BUTTON_RIGHT)) {
+// 	fill(BLUE);
+// }
+// if (KEY_DOWN_NOW(BUTTON_LEFT)) {
+// 	fill(YELLOW);
+// }
+// if (KEY_DOWN_NOW(BUTTON_UP)) {
+// 	fill(PURPLE);
+// }
+// if (KEY_DOWN_NOW(BUTTON_DOWN)) {
+// 	fill(PINK);
+// }
+// if (KEY_DOWN_NOW(BUTTON_R)) {
+// 	fill(MAROON);
+// }
+// if (KEY_DOWN_NOW(BUTTON_L)) {
+// 	fill(TEAL);
+// }
 
 #endif /* !MYLIB_H */

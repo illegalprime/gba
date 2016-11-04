@@ -15,6 +15,12 @@ int main() {
 		// run whatever state we're in
 		state = eval_state(state, frame_id);
 
+		// we should be able to go back at any time with select
+		struct Buttons events = button_events();
+		if (events.pressed & BUTTON_SELECT) {
+			state = GAME_STATE_MENU;
+		}
+
 		// increment frame
 		frame_id += 1;
 	}

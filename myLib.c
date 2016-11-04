@@ -26,8 +26,9 @@ int wait_for_vblank() {
 	while (REG_DISPLAY_VCOUNT < 160);
 
 	// get button events
-	btn_events.pressed = ~btn_events.held & BUTTONS;
-	btn_events.held = BUTTONS;
+	u16 btns = ~(BUTTONS);
+	btn_events.pressed = ~btn_events.held & btns;
+	btn_events.held = btns;
 
 	return 1;
 }
