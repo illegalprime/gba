@@ -21,6 +21,18 @@ static struct Player courage = {
 	},
 };
 
+static u16 num_possible_spawns = 2;
+static struct Vec2 possible_spawns[] = {
+	{
+		.x = 60,
+		.y = 0,
+	},
+	{
+		.x = 162,
+		.y = 0,
+	},
+};
+
 i32 clip(i32 target, i32 min, i32 max) {
 	if (target < min) {
 		target = min;
@@ -64,11 +76,7 @@ struct Vec2 random_vel(i32 mag) {
 }
 
 struct Vec2 random_enemy_spawn() {
-	// TODO
-	return (struct Vec2) {
-		.x = SCREEN_WIDTH / 2,
-		.y = SCREEN_HEIGHT / 2,
-	};
+	return possible_spawns[rand() % num_possible_spawns];
 }
 
 enum GameState run_play(u32 frame_no) {
