@@ -119,6 +119,8 @@ void fill(u32 color);
 
 void fill_image(const unsigned short* image);
 
+void draw_image(u8 row, u8 col, u8 width, u8 height, const u16* image);
+
 struct Buttons button_events();
 
 // debug buttons

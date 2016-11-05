@@ -71,6 +71,12 @@ void fill_image(const unsigned short* image) {
 	dma_copy(video_buffer, image, SCREEN_SIZE);
 }
 
+void draw_image(u8 row, u8 col, u8 width, u8 height, const u16* image) {
+    for (u8 i = 0; i < height; i += 1) {
+        dma_copy(video_buffer + OFFSET(row + i, col), image + (i * width), width);
+    }
+}
+
 struct Buttons button_events() {
 	return btn_events;
 }

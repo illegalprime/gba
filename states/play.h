@@ -10,6 +10,10 @@
 #include "states.h"
 #include "../myLib.h"
 
+#define DRAW_WAVE_Y 74
+#define DRAW_WAVE_X 70
+#define WAVE_PAUSE_TIME 100
+
 #define MOVEMENT_MIN_X 50
 #define MOVEMENT_MIN_Y 30
 #define MOVEMENT_MAX_X 184

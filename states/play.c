@@ -2,6 +2,7 @@
 
 #include "../assets/room.h"
 #include "../assets/intro_movie.h"
+#include "../assets/numbers.h"
 
 static u32 wave_number = 0;
 
@@ -71,6 +72,46 @@ struct Vec2 random_enemy_spawn() {
 	};
 }
 
+static bool show_wave = false;
+static u16 show_wave_frame = 0;
+
+void draw_wave(u32 wave_number) {
+	UNUSED(wave_number);
+	draw_image(
+		DRAW_WAVE_Y,
+		DRAW_WAVE_X,
+		WAVE_WIDTH,
+		WAVE_HEIGHT,
+		wave
+	);
+
+	u32 power = 1000000000;
+	u32 x = DRAW_WAVE_X + WAVE_WIDTH + digit_widths[0];
+	bool leading = true;
+
+	while (wave_number != 0) {
+		u32 digit = wave_number / power;
+		wave_number = wave_number % power;
+		power = power / 10;
+
+		if (leading) {
+			if (digit == 0) {
+				continue;
+			}
+			else {
+				leading = false;
+			}
+		}
+		draw_image(
+			DRAW_WAVE_Y,
+			x,
+			digit_widths[digit],
+			DIGITS_HEIGHT,
+			digits[digit]
+		);
+	}
+}
+
 enum GameState run_play(u32 frame_no) {
 	/*********
 	 * LOGIC *
@@ -78,12 +119,35 @@ enum GameState run_play(u32 frame_no) {
 	struct Buttons events = button_events();
 	bool game_over = false;
 
+	// show the wave for a little bit, disable controls
+	if (show_wave) {
+		show_wave_frame += 1;
+		if (show_wave_frame == WAVE_PAUSE_TIME) {
+			show_wave = false;
+			show_wave_frame = 0;
+		}
+
+		draw_rectangle(
+			MOVEMENT_MIN_Y,
+			MOVEMENT_MIN_X,
+			MOVEMENT_MAX_X - MOVEMENT_MIN_X,
+			MOVEMENT_MAX_Y - MOVEMENT_MIN_Y,
+			frame_011446[OFFSET(MOVEMENT_MIN_Y, MOVEMENT_MIN_X)]
+		);
+
+		draw_wave(wave_number);
+
+		return GAME_STATE_PLAY;
+	}
+
 	srand(frame_no);
 	if (wave_number == 0) {
 		// set the count to zero to increase wave number
 		enemies.count = 0;
 		enemies.killed = 0;
 		enemies.spawned = 0;
+		show_wave = false;
+		show_wave_frame = 0;
 
 		// zero all bullets
 		for (u32 i = 0; i < MAX_BULLETS; i += 1) {
@@ -267,6 +331,8 @@ enum GameState run_play(u32 frame_no) {
 		enemies.count += 1;
 		enemies.killed = 0;
 		enemies.spawned = 0;
+		show_wave = true;
+		show_wave_frame = 0;
 	}
 
 	if (game_over) {
