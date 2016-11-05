@@ -328,7 +328,7 @@ enum GameState run_intro(u32 frame_no) {
 		frame_index = 0;
 	}
 
-	u16 intro_frame = frame_index / 3;
+	u16 intro_frame = frame_index / 2;
 	struct Buttons events = button_events();
 
 	if (intro_frame == n_frames || events.pressed & BUTTON_START) {

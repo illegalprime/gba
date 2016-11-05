@@ -1,6 +1,7 @@
 #include "play.h"
 
 #include "../assets/room.h"
+#include "../assets/intro_movie.h"
 
 static u32 wave_number = 0;
 
@@ -18,18 +19,6 @@ static struct Player courage = {
 	.size = {
 		.x = PLAYER_WIDTH,
 		.y = PLAYER_HEIGHT,
-	},
-};
-
-static u16 num_possible_spawns = 2;
-static struct Vec2 possible_spawns[] = {
-	{
-		.x = 60,
-		.y = 0,
-	},
-	{
-		.x = 162,
-		.y = 0,
 	},
 };
 
@@ -76,18 +65,20 @@ struct Vec2 random_vel(i32 mag) {
 }
 
 struct Vec2 random_enemy_spawn() {
-	return possible_spawns[rand() % num_possible_spawns];
+	return (struct Vec2) {
+		.x = 100,
+		.y = 30,
+	};
 }
 
 enum GameState run_play(u32 frame_no) {
-	srand(frame_no);
-
 	/*********
 	 * LOGIC *
 	 *********/
 	struct Buttons events = button_events();
 	bool game_over = false;
 
+	srand(frame_no);
 	if (wave_number == 0) {
 		// set the count to zero to increase wave number
 		enemies.count = 0;
@@ -102,6 +93,8 @@ enum GameState run_play(u32 frame_no) {
 		for (u32 i = 0; i < MAX_WAVES; i += 1) {
 			enemies.moles[i].spawned = false;
 		}
+
+		fill_image(frame_011446);
 	}
 
 	// handle button movement
@@ -157,10 +150,10 @@ enum GameState run_play(u32 frame_no) {
 			bullets[i].box.y += bullets[i].vel.y;
 
 			// check if we left and destroy us
-			if (bullets[i].box.x <= 0
-				|| bullets[i].box.x > SCREEN_WIDTH - BULLET_WIDTH
-				|| bullets[i].box.y <= 0
-				|| bullets[i].box.y > SCREEN_HEIGHT - BULLET_HEIGHT)
+			if (bullets[i].box.x <= MOVEMENT_MIN_X
+				|| bullets[i].box.x > MOVEMENT_MAX_X - BULLET_WIDTH
+				|| bullets[i].box.y <= MOVEMENT_MIN_Y
+				|| bullets[i].box.y > MOVEMENT_MAX_Y - BULLET_HEIGHT)
 			{
 				bullets[i].spawned = false;
 				break;
@@ -219,10 +212,15 @@ enum GameState run_play(u32 frame_no) {
 	 * RENDERING *
 	 *************/
 	// clear buffer by drawing background
-	fill_image(room);
+	draw_rectangle(
+		MOVEMENT_MIN_Y,
+		MOVEMENT_MIN_X,
+		MOVEMENT_MAX_X - MOVEMENT_MIN_X,
+		MOVEMENT_MAX_Y - MOVEMENT_MIN_Y,
+		frame_011446[OFFSET(MOVEMENT_MIN_Y, MOVEMENT_MIN_X)]
+	);
 
 	// draw player
-	// TODO
 	draw_rectangle(
 		courage.box.y,
 		courage.box.x,
@@ -234,13 +232,12 @@ enum GameState run_play(u32 frame_no) {
 	// draw enemies
 	for (u32 i = 0; i < enemies.count; i += 1) {
 		if (enemies.moles[i].spawned) {
-			// TODO
 			draw_rectangle(
 				enemies.moles[i].box.y,
 				enemies.moles[i].box.x,
 				enemies.moles[i].box.width,
 				enemies.moles[i].box.height,
-				GREEN
+				ORANGE
 			);
 		}
 	}
@@ -248,7 +245,6 @@ enum GameState run_play(u32 frame_no) {
 	// draw bullets
 	for (u32 i = 0; i < MAX_BULLETS; i += 1) {
 		if (bullets[i].spawned) {
-			// TODO
 			draw_rectangle(
 				bullets[i].box.y,
 				bullets[i].box.x,
