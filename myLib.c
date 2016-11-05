@@ -40,11 +40,9 @@ void set_pixel(int row, int col, u16 color) {
 }
 
 void draw_rectangle(int row, int col, int width, int height, u16 color) {
-	for (int i = 0; i < height; i += 1) {
-		for (int j = 0; j < width; j += 1) {
-			set_pixel(i + row, j + col, color);
-		}
-	}
+    for (int i = 0; i < height; i += 1) {
+        dma_fill(video_buffer + OFFSET(row + i, col), color, width);
+    }
 }
 
 void draw_hollow_rectangle(int row, int col, int width, int height, u16 color) {

@@ -1,5 +1,7 @@
 #include "intro.h"
 
+unsigned int frame_index = 0;
+unsigned int last_frame = ~0;
 const unsigned int n_frames = 318;
 const unsigned short* intro_frames[] = {
 	frame_011446,
@@ -321,7 +323,12 @@ const unsigned short* intro_frames[] = {
 };
 
 enum GameState run_intro(u32 frame_no) {
-	u16 intro_frame = frame_no / 3;
+	if (frame_no - last_frame > 1) {
+		// start over
+		frame_index = 0;
+	}
+
+	u16 intro_frame = frame_index / 3;
 	struct Buttons events = button_events();
 
 	if (intro_frame == n_frames || events.pressed & BUTTON_START) {
@@ -329,6 +336,8 @@ enum GameState run_intro(u32 frame_no) {
 	}
 	else {
 		fill_image(intro_frames[intro_frame]);
+		frame_index += 1;
+		last_frame = frame_no;
 		return GAME_STATE_INTRO;
 	}
 }
