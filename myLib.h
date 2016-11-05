@@ -9,13 +9,13 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-typedef unsigned char boolean;
-typedef char s8;
-typedef short s16;
-typedef int s32;
+typedef unsigned char bool;
+typedef char i8;
+typedef short i16;
+typedef int i32;
 
-#define TRUE 1
-#define FALSE 0
+#define true 1
+#define false 0
 #define NULL 0
 #define UNUSED(x) (void)(x)
 
