@@ -323,7 +323,7 @@ const unsigned short* intro_frames[] = {
 };
 
 enum GameState run_intro(u32 frame_no) {
-	if (frame_no - last_frame > 1) {
+	if (frame_no != last_frame + 1) {
 		// start over
 		frame_index = 0;
 	}

@@ -109,6 +109,8 @@ int wait_for_vblank();
 
 void set_pixel(int row, int col, u16 color);
 
+u16 get_pixel(int row, int col);
+
 void draw_rectangle(int row, int col, int width, int height, u16 color);
 
 void draw_hollow_rectangle(int row, int col, int width, int height, u16 color);

@@ -14,6 +14,7 @@ enum GameState {
     GAME_STATE_MENU,
     GAME_STATE_INTRO,
     GAME_STATE_PLAY,
+    GAME_STATE_GAME_OVER,
 };
 
 enum GameState eval_state(enum GameState current, u32 frame_no);

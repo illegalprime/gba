@@ -79,6 +79,7 @@ enum GameState run_play(u32 frame_no) {
 	 * LOGIC *
 	 *********/
 	struct Buttons events = button_events();
+	bool game_over = false;
 
 	if (wave_number == 0) {
 		// set the count to zero to increase wave number
@@ -199,6 +200,11 @@ enum GameState run_play(u32 frame_no) {
 				enemies.moles[i].vel = random_vel(ENEMY_SPEED);
 			}
 			move(&enemies.moles[i].box, enemies.moles[i].vel);
+
+			// check if it hit our player
+			if (collides(enemies.moles[i].box, courage.box)) {
+				game_over = true;
+			}
 		}
 	}
 
@@ -255,6 +261,13 @@ enum GameState run_play(u32 frame_no) {
 		enemies.count += 1;
 		enemies.killed = 0;
 		enemies.spawned = 0;
+	}
+
+	if (game_over) {
+		// reset the game
+		wave_number = 0;
+		// go to game over screen
+		return GAME_STATE_GAME_OVER;
 	}
 
 	return GAME_STATE_PLAY;
