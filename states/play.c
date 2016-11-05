@@ -1,5 +1,7 @@
 #include "play.h"
 
+#include "../assets/room.h"
+
 static u32 wave_number = 0;
 
 static struct Enemies enemies;
@@ -70,9 +72,6 @@ struct Vec2 random_enemy_spawn() {
 }
 
 enum GameState run_play(u32 frame_no) {
-	// clear buffer by drawing background
-	// TODO
-	fill(BLACK);
 	srand(frame_no);
 
 	/*********
@@ -211,6 +210,9 @@ enum GameState run_play(u32 frame_no) {
 	/*************
 	 * RENDERING *
 	 *************/
+	// clear buffer by drawing background
+	fill_image(room);
+
 	// draw player
 	// TODO
 	draw_rectangle(
