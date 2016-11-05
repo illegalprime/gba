@@ -6,6 +6,7 @@
 #ifndef PLAY_H
 #define PLAY_H
 
+#include "stdlib.h"
 #include "states.h"
 #include "../myLib.h"
 

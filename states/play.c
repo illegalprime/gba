@@ -1,5 +1,4 @@
 #include "play.h"
-#include "stdlib.h"
 
 static u32 wave_number = 0;
 
@@ -161,7 +160,9 @@ enum GameState run_play(u32 frame_no) {
 
 			// check if we hit someone
 			for (u32 j = 0; j < enemies.count; j += 1) {
-				if (collides(bullets[i].box, enemies.moles[j].box)) {
+				if (enemies.moles[j].spawned
+					&& collides(bullets[i].box, enemies.moles[j].box))
+				{
 					// they destroy each other
 					enemies.moles[j].spawned = false;
 					bullets[i].spawned = false;
