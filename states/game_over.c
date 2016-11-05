@@ -13,7 +13,7 @@ enum GameState run_game_over(u32 frame_no) {
 		for (u16 i = 0; i < SCREEN_WIDTH; i += 1) {
 			for (u16 j = 0; j < SCREEN_HEIGHT; j += 1) {
 				u16 color = get_pixel(j, i);
-				set_pixel(j, i, color + 0xf);
+				set_pixel(j, i, color | 0xf);
 			}
 		}
 	}
