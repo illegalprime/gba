@@ -123,36 +123,4 @@ void draw_image(u8 row, u8 col, u8 width, u8 height, const u16* image);
 
 struct Buttons button_events();
 
-// debug buttons
-// if (KEY_DOWN_NOW(BUTTON_A)) {
-// 	fill(WHITE);
-// }
-// if (KEY_DOWN_NOW(BUTTON_B)) {
-// 	fill(BLACK);
-// }
-// if (KEY_DOWN_NOW(BUTTON_SELECT)) {
-// 	fill(GREEN);
-// }
-// if (KEY_DOWN_NOW(BUTTON_START)) {
-// 	fill(RED);
-// }
-// if (KEY_DOWN_NOW(BUTTON_RIGHT)) {
-// 	fill(BLUE);
-// }
-// if (KEY_DOWN_NOW(BUTTON_LEFT)) {
-// 	fill(YELLOW);
-// }
-// if (KEY_DOWN_NOW(BUTTON_UP)) {
-// 	fill(PURPLE);
-// }
-// if (KEY_DOWN_NOW(BUTTON_DOWN)) {
-// 	fill(PINK);
-// }
-// if (KEY_DOWN_NOW(BUTTON_R)) {
-// 	fill(MAROON);
-// }
-// if (KEY_DOWN_NOW(BUTTON_L)) {
-// 	fill(TEAL);
-// }
-
 #endif /* !MYLIB_H */
