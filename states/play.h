@@ -10,6 +10,11 @@
 #include "states.h"
 #include "../myLib.h"
 
+#define MOVEMENT_MIN_X 21
+#define MOVEMENT_MIN_Y 19
+#define MOVEMENT_MAX_X 223
+#define MOVEMENT_MAX_Y 138
+
 #define PLAYER_SPEED 1
 #define PLAYER_WIDTH 10
 #define PLAYER_HEIGHT 10

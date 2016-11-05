@@ -40,10 +40,10 @@ bool collides(struct BBox a, struct BBox b) {
 
 void move(struct BBox* box, struct Vec2 vel) {
 	if (vel.x != 0) {
-		box->x = clip(box->x + vel.x, 0, SCREEN_WIDTH - box->width);
+		box->x = clip(box->x + vel.x, MOVEMENT_MIN_X, MOVEMENT_MAX_X - box->width);
 	}
 	if (vel.y != 0) {
-		box->y = clip(box->y + vel.y, 0, SCREEN_HEIGHT - box->height);
+		box->y = clip(box->y + vel.y, MOVEMENT_MIN_Y, MOVEMENT_MAX_Y - box->height);
 	}
 }
 
