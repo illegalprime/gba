@@ -67,7 +67,7 @@ struct Vec2 random_vel(i32 mag) {
 
 struct Vec2 random_enemy_spawn() {
 	return (struct Vec2) {
-		.x = 100,
+		.x = MOVEMENT_MIN_X + (rand() % (MOVEMENT_MAX_X - MOVEMENT_MIN_X)),
 		.y = 30,
 	};
 }
