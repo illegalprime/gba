@@ -107,6 +107,9 @@ void draw_wave(u32 wave_number) {
 			DIGITS_HEIGHT,
 			digits[digit]
 		);
+
+		// increment the next digit position
+		x += digit_widths[digit];
 	}
 }
 
