@@ -3,6 +3,7 @@
 #include "../assets/room.h"
 #include "../assets/intro_movie.h"
 #include "../assets/numbers.h"
+#include "../assets/courage.h"
 
 static u32 wave_number = 0;
 
@@ -14,12 +15,8 @@ static struct Player courage = {
 	.box = {
 		.x = SCREEN_WIDTH / 2,
 		.y = SCREEN_HEIGHT / 2,
-		.width = PLAYER_WIDTH,
-		.height = PLAYER_HEIGHT,
-	},
-	.size = {
-		.x = PLAYER_WIDTH,
-		.y = PLAYER_HEIGHT,
+		.width = COURAGE_WIDTH,
+		.height = COURAGE_HEIGHT,
 	},
 };
 
@@ -67,7 +64,8 @@ struct Vec2 random_vel(i32 mag) {
 
 struct Vec2 random_enemy_spawn() {
 	return (struct Vec2) {
-		.x = MOVEMENT_MIN_X + (rand() % (MOVEMENT_MAX_X - MOVEMENT_MIN_X)),
+		.x = MOVEMENT_MIN_X
+			+ (rand() % (MOVEMENT_MAX_X - MOVEMENT_MIN_X - ENEMY_WIDTH)),
 		.y = 30,
 	};
 }
@@ -196,8 +194,8 @@ enum GameState run_play(u32 frame_no) {
 			bullets[i].spawned = true;
 			bullets[i].box.width = BULLET_WIDTH;
 			bullets[i].box.height = BULLET_HEIGHT;
-			bullets[i].box.x = courage.box.x + (PLAYER_WIDTH / 2);
-			bullets[i].box.y = courage.box.y + (PLAYER_HEIGHT / 2);
+			bullets[i].box.x = courage.box.x + (courage.box.width / 2);
+			bullets[i].box.y = courage.box.y + (courage.box.height / 2);
 
 			if (courage.vel.x == 0 && courage.vel.y == 0) {
 				bullets[i].vel = build_vec(courage.last_vel, BULLET_SPEED);
@@ -260,10 +258,12 @@ enum GameState run_play(u32 frame_no) {
 		if (enemies.moles[i].spawned) {
 			// move it a little bit
 			// random chance of changing velocities
-			if (rand() % ENEMY_CHANGE_DIR_RATE == 0) {
-				enemies.moles[i].vel = random_vel(ENEMY_SPEED);
+			if (frame_no % ENEMY_SPEED == 0) {
+				if (rand() % ENEMY_CHANGE_DIR_RATE == 0) {
+					enemies.moles[i].vel = random_vel(1);
+				}
+				move(&enemies.moles[i].box, enemies.moles[i].vel);
 			}
-			move(&enemies.moles[i].box, enemies.moles[i].vel);
 
 			// check if it hit our player
 			if (collides(enemies.moles[i].box, courage.box)) {
@@ -284,13 +284,26 @@ enum GameState run_play(u32 frame_no) {
 		frame_011446[OFFSET(MOVEMENT_MIN_Y, MOVEMENT_MIN_X)]
 	);
 
+	// draw bullets
+	for (u32 i = 0; i < MAX_BULLETS; i += 1) {
+		if (bullets[i].spawned) {
+			draw_rectangle(
+				bullets[i].box.y,
+				bullets[i].box.x,
+				bullets[i].box.width,
+				bullets[i].box.height,
+				RED
+			);
+		}
+	}
+
 	// draw player
-	draw_rectangle(
+	draw_image(
 		courage.box.y,
 		courage.box.x,
 		courage.box.width,
 		courage.box.height,
-		PURPLE
+		courage_sprite
 	);
 
 	// draw enemies
@@ -301,20 +314,7 @@ enum GameState run_play(u32 frame_no) {
 				enemies.moles[i].box.x,
 				enemies.moles[i].box.width,
 				enemies.moles[i].box.height,
-				ORANGE
-			);
-		}
-	}
-
-	// draw bullets
-	for (u32 i = 0; i < MAX_BULLETS; i += 1) {
-		if (bullets[i].spawned) {
-			draw_rectangle(
-				bullets[i].box.y,
-				bullets[i].box.x,
-				bullets[i].box.width,
-				bullets[i].box.height,
-				WHITE
+				BROWN
 			);
 		}
 	}
